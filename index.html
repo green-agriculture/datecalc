@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة العمر والتاريخ الهجري</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment-hijri@2.1.2/moment-hijri.min.js"></script>
+    <style>
+        body {
+            font-family: 'Tajawal', Arial, sans-serif;
+            background-color: #f7f9fc;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .form-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+        .result-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            display: none;
+        }
+        .result-box {
+            background-color: #f0f7ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-right: 4px solid #3b82f6;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #e5e7eb;
+            margin-top: 40px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .btn {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: linear-gradient(135deg, #1e40af, #60a5fa);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .charity {
+            font-style: italic;
+            color: #4b5563;
+            margin-top: 10px;
+        }
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border 0.3s ease;
+        }
+        .input-field:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .result-title {
+            color: #1e3a8a;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .result-value {
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .separator {
+            height: 1px;
+            background: #e5e7eb;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="text-3xl font-bold mb-2">حاسبة العمر والتاريخ الهجري</h1>
+            <p class="text-lg">أدخل تاريخ ميلادك لمعرفة عمرك بالتفصيل واليوم الذي ولدت فيه والتاريخ الهجري المقابل</p>
+        </div>
+
+        <div class="form-container">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">أدخل تاريخ الميلاد</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="input-group">
+                    <label for="day">اليوم:</label>
+                    <input type="number" id="day" min="1" max="31" class="input-field" placeholder="اليوم" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="month">الشهر:</label>
+                    <select id="month" class="input-field" required>
+                        <option value="" disabled selected>اختر الشهر</option>
+                        <option value="1">يناير</option>
+                        <option value="2">فبراير</option>
+                        <option value="3">مارس</option>
+                        <option value="4">أبريل</option>
+                        <option value="5">مايو</option>
+                        <option value="6">يونيو</option>
+                        <option value="7">يوليو</option>
+                        <option value="8">أغسطس</option>
+                        <option value="9">سبتمبر</option>
+                        <option value="10">أكتوبر</option>
+                        <option value="11">نوفمبر</option>
+                        <option value="12">ديسمبر</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="year">السنة:</label>
+                    <input type="number" id="year" min="1900" max="2100" class="input-field" placeholder="السنة" required>
+                </div>
+            </div>
+            
+            <div class="text-center mt-6">
+                <button id="calculate" class="btn">
+                    <i class="fas fa-calculator mr-2"></i>
+                    حساب العمر
+                </button>
+            </div>
+        </div>
+
+        <div id="results" class="result-container">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">النتائج</h2>
+            
+            <div class="result-box">
+                <div class="result-title">العمر بالتفصيل:</div>
+                <div id="age" class="result-value"></div>
+            </div>
+            
+            <div class="result-box">
+                <div class="result-title">يوم الولادة:</div>
+                <div id="dayOfWeek" class="result-value"></div>
+            </div>
+            
+            <div class="result-box">
+                <div class="result-title">التاريخ الهجري المقابل:</div>
+                <div id="hijriDate" class="result-value"></div>
+            </div>
+            
+            <div class="separator"></div>
+            
+            <div class="text-center">
+                <button id="recalculate" class="btn">
+                    <i class="fas fa-redo mr-2"></i>
+                    حساب جديد
+                </button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3 class="text-xl font-bold text-gray-700 mb-3">صدقة جارية</h3>
+            <p class="charity">هذه الصفحة مقدمة كصدقة جارية، نرجو من الله أن ينفع بها الناس</p>
+            <p class="mt-6 text-sm text-gray-500">© جميع الحقوق محفوظة</p>
+        </div>
+    </div>
+
+    <script>
+        // أسماء الأيام بالعربية
+        const arabicDays = {
+            'Sunday': 'الأحد',
+            'Monday': 'الإثنين',
+            'Tuesday': 'الثلاثاء',
+            'Wednesday': 'الأربعاء',
+            'Thursday': 'الخميس',
+            'Friday': 'الجمعة',
+            'Saturday': 'السبت'
+        };
+
+        // أسماء الشهور الهجرية بالعربية
+        const arabicHijriMonths = [
+            'محرم', 'صفر', 'ربيع الأول', 'ربيع الثاني',
+            'جمادى الأولى', 'جمادى الآخرة', 'رجب', 'شعبان',
+            'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'
+        ];
+
+        document.getElementById('calculate').addEventListener('click', function() {
+            const day = parseInt(document.getElementById('day').value);
+            const month = parseInt(document.getElementById('month').value);
+            const year = parseInt(document.getElementById('year').value);
+            
+            // التحقق من صحة التاريخ
+            if (!day || !month || !year || isNaN(day) || isNaN(month) || isNaN(year)) {
+                alert('الرجاء إدخال تاريخ صحيح');
+                return;
+            }
+            
+            if (day < 1 || day > 31 || month < 1 || month > 12 || year < 1900 || year > 2100) {
+                alert('الرجاء إدخال تاريخ صحيح');
+                return;
+            }
+            
+            // إنشاء تاريخ الميلاد
+            const birthDate = new Date(year, month - 1, day);
+            
+            // التحقق من صحة التاريخ (مثل 30 فبراير)
+            if (birthDate.getDate() !== day) {
+                alert('التاريخ المدخل غير صحيح، الرجاء التحقق من اليوم والشهر');
+                return;
+            }
+            
+            // تاريخ اليوم
+            const today = new Date();
+            
+            // التحقق من أن تاريخ الميلاد لا يتجاوز تاريخ اليوم
+            if (birthDate > today) {
+                alert('تاريخ الميلاد لا يمكن أن يكون في المستقبل');
+                return;
+            }
+            
+            // حساب العمر بالتفصيل
+            let ageYears = today.getFullYear() - birthDate.getFullYear();
+            let ageMonths = today.getMonth() - birthDate.getMonth();
+            let ageDays = today.getDate() - birthDate.getDate();
+            
+            if (ageDays < 0) {
+                ageMonths--;
+                // عدد الأيام في الشهر السابق
+                const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                ageDays += lastMonth.getDate();
+            }
+            
+            if (ageMonths < 0) {
+                ageYears--;
+                ageMonths += 12;
+            }
+            
+            // تحديد يوم الميلاد
+            const dayOfWeek = birthDate.toLocaleDateString('en-US', { weekday: 'long' });
+            const arabicDayOfWeek = arabicDays[dayOfWeek];
+            
+            // تحويل التاريخ إلى التقويم الهجري
+            moment.locale('ar-SA');
+            const hijriDate = moment(birthDate).format('iYYYY/iM/iD');
+            const hijriMoment = moment(birthDate).iYear();
+            const hijriMonth = moment(birthDate).iMonth();
+            const hijriDay = moment(birthDate).iDate();
+            
+            const formattedHijriDate = `${hijriDay} ${arabicHijriMonths[hijriMonth]} ${hijriMoment} هـ`;
+            
+            // عرض النتائج
+            document.getElementById('age').textContent = `${ageYears} سنة و ${ageMonths} شهر و ${ageDays} يوم`;
+            document.getElementById('dayOfWeek').textContent = arabicDayOfWeek;
+            document.getElementById('hijriDate').textContent = formattedHijriDate;
+            
+            // إظهار قسم النتائج
+            document.getElementById('results').style.display = 'block';
+            document.querySelector('.form-container').style.display = 'none';
+        });
+        
+        document.getElementById('recalculate').addEventListener('click', function() {
+            document.querySelector('.form-container').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
